@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function draw(id) {
+            var myCanvas = document.getElementById(id);
+            var r0 = 240;
+            var r1 = 190;
+            var r2 = 150;
+            var r3 = 120;
+            var ctx = myCanvas.getContext('2d');
+//定义基础颜色
+            var color = [];
+            for (var i = 1; i <= 24; i++) {
+                var p = 30 + (70 / 24) * i;
+                color.push('hsl(170,' + p + '%,' + p + '%)');
+            }
+//把坐标轴移动到（250,250）这个点上
+            ctx.translate(250, 250);
+//            drawSector(4, r0, [2009, 2010, 2011, 2012]);
+//            drawSector(12, r1, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+            drawSector([180,20,110,50], r2, ['月经期', '安全期', '排卵期', '安全期']);
+//            drawSector(24, r3, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]);
+//画白色区域
+            ctx.save();
+            ctx.fillStyle = "#fff";
+            ctx.beginPath();
+            ctx.arc(0, 0, 100, 0, 2 * Math.PI);
+            ctx.fill()
+            ctx.restore();
+            myCanvas.onmousedown = function (e) {
+                var text = [2010, 2011, 2012, 2009];
+                var text1 = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+                var text2 = ['Sun', 'Sat', 'Fri', 'Thu', 'Wed', 'Tue', 'Mon'];
+                var text3 = [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+                var x = e.clientX - 250;
+                var y = 250 - e.clientY;
+                //当鼠标位置在半径190以外的区域
+                if ((x * x + y * y) > 190 * 190) {
+                    var id1 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 4));
+                    if (id1 <= 0) {
+                        id1 = id1 + 4;
+                    }
+                    alert(text[id1 - 1] + "年")
+                }
+                //当鼠标位置在半径150以外，190以内的区域
+                if ((x * x + y * y) > (150 * 150) && (x * x + y * y) < (190 * 190)) {
+                    var id1 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 4));
+                    var id2 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 12));
+                    if (id1 <= 0) {
+                        id1 = id1 + 4;
+                    }
+                    if (id2 <= 0) {
+                        id2 = id2 + 12;
+                    }
+                    alert(text[id1 - 1] + "年" + text1[id2 - 1] + "月")
+                }
+                //当鼠标位置在半径120以外，150以内的区域
+                if ((x * x + y * y) > (120 * 120) && (x * x + y * y) < (150 * 150)) {
+                    var id1 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 4));
+                    var id2 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 12));
+                    var id3 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 7));
+                    if (id1 <= 0) {
+                        id1 = id1 + 4;
+                    }
+                    if (id2 <= 0) {
+                        id2 = id2 + 12;
+                    }
+                    if (id3 <= 0) {
+                        id3 = id3 + 7;
+                    }
+                    alert(text[id1 - 1] + "年" + text1[id2 - 1] + "月" + text2[id3 - 1] + ",")
+                }
+                //当鼠标位置在半径80以外，120以内的区域
+                if ((x * x + y * y) > (80 * 80) && (x * x + y * y) < (120 * 120)) {
+                    var id1 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 4));
+                    var id2 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 12));
+                    var id3 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 7));
+                    var id4 = Math.ceil(Math.atan2(y, x) / (Math.PI * 2 / 24));
+                    if (id1 <= 0) {
+                        id1 = id1 + 4;
+                    }
+                    if (id2 <= 0) {
+                        id2 = id2 + 12;
+                    }
+                    if (id3 <= 0) {
+                        id3 = id3 + 7;
+                    }
+                    if (id4 <= 0) {
+                        id4 = id4 + 24;
+                    }
+                    alert(text[id1 - 1] + "年" + text1[id2 - 1] + "月" + text2[id3 - 1] + "," + text3[id4 - 1] + "时")
+                }
+            };
+
+            function drawSector(angel, r, text) {
+
+                // body...
+                ctx.save();
+                ctx.strokeStyle = '#fff';
+                for (i = 1; i <= 4     ; i++) {
+                    color[1] ="red";
+                    color[2] = "green"
+                    color[3] = "yellow"
+                    color[4] = "green"
+                    ctx.fillStyle = color[i];
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+//                    ctx.lineTo(0,r);
+                    var temp = angel[i-1]/360 * Math.PI*2- Math.PI/2;
+                    ctx.arc(0, 0, r,-0.5*Math.PI,temp);
+                    ctx.closePath(); //创建从当前点回到起始点的路径
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.rotate(angel[i-1]/360 * Math.PI*2);
+//
+                }
+
+                ctx.restore();
+            }
+        }
+
+    </script>
+
+
+</head>
+
+<body onload="draw('myCanvas');">
+
+
+<canvas id="myCanvas" width=500 height=500/>
+
+</body>
+</html>
